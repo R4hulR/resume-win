@@ -409,11 +409,6 @@
   }
   tick(); setInterval(tick, 1000 * 10);
 
-  // Resume link placeholder
-  document.getElementById('resume-link').addEventListener('click', (e) => {
-    e.preventDefault();
-    alert('Add your résumé PDF and point this link at it — e.g. href="resume.pdf"');
-  });
 
   // Deselect icons on desktop click
   document.body.addEventListener('click', (e) => {
