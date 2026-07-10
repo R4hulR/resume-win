@@ -1,0 +1,9 @@
+# Dev notes — not needed in the repo
+task.md
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# macOS
+.DS_Store
