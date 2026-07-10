@@ -1,0 +1,640 @@
+:root{
+    --win-face:#c0c0c0;
+    --win-face-dark:#808080;
+    --win-shadow:#404040;
+    --win-light:#ffffff;
+    --win-highlight:#dfdfdf;
+    --titlebar-1:#000080;
+    --titlebar-2:#1084d0;
+    --titlebar-inactive-1:#808080;
+    --titlebar-inactive-2:#b5b5b5;
+    --desktop:#008080;
+    --accent:#000080;
+    --font: "Tahoma","Segoe UI",Verdana,sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html,body{
+    margin:0;padding:0;height:100%;
+    font-family:var(--font);
+    font-size:12px;
+    overflow:hidden;
+    -webkit-user-select:none;user-select:none;
+  }
+  body{
+    background:#050512;
+    height:100vh;
+    width:100vw;
+    position:relative;
+  }
+
+  /* ---------- retro space background ---------- */
+  /* To use your own photo/art instead of the drawn scene:
+     1. Put your image next to index.html, e.g. "space-bg.jpg"
+     2. Add class="has-photo" to the #space-bg div in index.html
+     3. Update the url() below to match your filename                */
+  #space-bg{
+    position:fixed;inset:0;
+    z-index:0;
+    overflow:hidden;
+    background:
+      radial-gradient(ellipse at 30% 20%, rgba(120,60,180,0.25), transparent 55%),
+      radial-gradient(ellipse at 75% 10%, rgba(30,80,160,0.30), transparent 50%),
+      linear-gradient(180deg,#02020a 0%, #0a0a2a 45%, #1a0e3a 75%, #2a0f2f 100%);
+  }
+  #space-bg.has-photo{
+    background-image:url('space-bg.jpg');
+    background-size:cover;
+    background-position:center;
+  }
+  #space-bg.has-photo::before{
+    content:"";
+    position:absolute;inset:0;
+    background:linear-gradient(180deg, rgba(2,2,10,0.15) 0%, rgba(2,2,10,0.55) 100%);
+  }
+  /* hide the hand-drawn elements automatically when a photo is active */
+  #space-bg.has-photo .stars-a,
+  #space-bg.has-photo .stars-b,
+  #space-bg.has-photo .moon,
+  #space-bg.has-photo .planet-ring,
+  #space-bg.has-photo .ship,
+  #space-bg.has-photo .ridge{
+    display:none;
+  }
+  #space-bg .stars-a, #space-bg .stars-b, #space-bg .stars-c{
+    position:absolute;inset:0;
+    background-repeat:repeat;
+  }
+  #space-bg .stars-a{
+    background-image: radial-gradient(1.5px 1.5px at 20% 30%, #fff, transparent),
+      radial-gradient(1px 1px at 60% 70%, #fff, transparent),
+      radial-gradient(1.5px 1.5px at 80% 20%, #fff, transparent),
+      radial-gradient(1px 1px at 35% 85%, #fff, transparent),
+      radial-gradient(1.2px 1.2px at 90% 60%, #fff, transparent),
+      radial-gradient(1px 1px at 10% 65%, #fff, transparent);
+    background-size: 220px 220px;
+    animation: twinkle 4s ease-in-out infinite;
+  }
+  #space-bg .stars-b{
+    background-image: radial-gradient(1px 1px at 15% 15%, #cfe, transparent),
+      radial-gradient(1px 1px at 50% 50%, #fff, transparent),
+      radial-gradient(1px 1px at 75% 80%, #fff, transparent),
+      radial-gradient(1px 1px at 92% 40%, #cfe, transparent);
+    background-size: 140px 140px;
+    animation: twinkle 3s ease-in-out infinite reverse;
+  }
+  #space-bg .moon{
+    position:absolute;
+    top:-90px; right:60px;
+    width:220px;height:220px;
+    border-radius:50%;
+    background:radial-gradient(circle at 38% 35%, #fdf6e3 0%, #e8d9a8 35%, #b79a5a 70%, #8a7440 100%);
+    box-shadow: 0 0 70px 10px rgba(240,220,150,0.35), inset -30px -20px 40px rgba(0,0,0,0.35);
+  }
+  #space-bg .planet-ring{
+    position:absolute;
+    bottom:14%; left:6%;
+    width:120px;height:120px;
+    border-radius:50%;
+    background:radial-gradient(circle at 35% 30%, #ff9a6c, #b8461f 60%, #5c1e0c 100%);
+    box-shadow:0 0 40px rgba(255,120,60,0.25);
+  }
+  #space-bg .planet-ring::after{
+    content:"";
+    position:absolute;
+    top:50%;left:50%;
+    width:230px;height:46px;
+    border:3px solid rgba(230,200,255,0.35);
+    border-radius:50%;
+    transform:translate(-50%,-50%) rotate(-18deg);
+  }
+  #space-bg .horizon{
+    position:absolute;left:0;right:0;bottom:0;height:34vh;
+    background:
+      linear-gradient(180deg, transparent 0%, rgba(10,5,25,0.9) 60%, #0a0518 100%);
+  }
+  #space-bg .ridge{
+    position:absolute;left:0;right:0;bottom:0;height:22vh;
+    background:#0d0a1c;
+    clip-path: polygon(0% 100%, 0% 55%, 6% 40%, 14% 58%, 22% 30%, 30% 50%, 40% 20%, 50% 48%, 58% 35%, 68% 60%, 78% 25%, 88% 46%, 96% 32%, 100% 50%, 100% 100%);
+  }
+  #space-bg .ship{
+    position:absolute;
+    top:38%; left:-6%;
+    width:90px; height:auto;
+    opacity:0.9;
+    filter: drop-shadow(0 0 10px rgba(150,200,255,0.5));
+    animation: fly 38s linear infinite;
+  }
+  @keyframes fly{
+    0%{ transform: translate(0, 0) scale(1); }
+    100%{ transform: translate(120vw, -6vh) scale(1.4); }
+  }
+  @keyframes twinkle{
+    0%,100%{opacity:1;}
+    50%{opacity:.55;}
+  }
+  @media (prefers-reduced-motion: reduce){
+    #space-bg .ship{animation:none; left:20%; top:35%;}
+    #space-bg .stars-a, #space-bg .stars-b{animation:none;}
+  }
+
+  /* ---------- generic win95 borders ---------- */
+  .raised{
+    background:var(--win-face);
+    border-top:1px solid var(--win-light);
+    border-left:1px solid var(--win-light);
+    border-right:1px solid var(--win-shadow);
+    border-bottom:1px solid var(--win-shadow);
+    box-shadow: inset 1px 1px 0 var(--win-highlight), inset -1px -1px 0 var(--win-face-dark);
+  }
+  .sunken{
+    background:var(--win-face);
+    border-top:1px solid var(--win-shadow);
+    border-left:1px solid var(--win-shadow);
+    border-right:1px solid var(--win-light);
+    border-bottom:1px solid var(--win-light);
+    box-shadow: inset 1px 1px 0 var(--win-face-dark), inset -1px -1px 0 var(--win-highlight);
+  }
+  button.win95{
+    font-family:var(--font);
+    font-size:12px;
+    background:var(--win-face);
+    border-top:1px solid var(--win-light);
+    border-left:1px solid var(--win-light);
+    border-right:1px solid var(--win-shadow);
+    border-bottom:1px solid var(--win-shadow);
+    box-shadow: inset 1px 1px 0 var(--win-highlight), inset -1px -1px 0 var(--win-face-dark);
+    padding:4px 12px;
+    cursor:pointer;
+    color:#000;
+  }
+  button.win95:active{
+    border-top:1px solid var(--win-shadow);
+    border-left:1px solid var(--win-shadow);
+    border-right:1px solid var(--win-light);
+    border-bottom:1px solid var(--win-light);
+    box-shadow:none;
+    padding:5px 11px 3px 13px;
+  }
+
+  /* ---------- desktop icons ---------- */
+  #desktop-icons{
+    position:absolute;
+    top:14px;left:12px;
+    display:flex;
+    flex-direction:column;
+    flex-wrap:wrap;
+    align-content:flex-start;
+    height:calc(100vh - 100px);
+    gap:2px;
+    z-index:1;
+  }
+  .dicon{
+    width:92px;
+    padding:6px 2px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    text-align:center;
+    cursor:pointer;
+    color:#fff;
+    text-shadow:1px 1px 1px rgba(0,0,0,0.8);
+  }
+  .dicon:focus, .dicon.selected{
+    outline:1px dotted #fff;
+  }
+  .dicon .glyph{
+    width:38px;height:38px;
+    margin-bottom:4px;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .dicon .label{
+    font-size:11px;
+    line-height:1.25;
+    padding:1px 3px;
+  }
+  .dicon.selected .label{
+    background:var(--accent);
+  }
+
+  /* simple svg icon look */
+  .ico-folder rect{fill:#ffd651;stroke:#8a6d00;stroke-width:1;}
+  .ico-doc rect{fill:#fff;stroke:#555;stroke-width:1;}
+  .ico-doc line{stroke:#7a9cc6;stroke-width:2;}
+  .ico-mail path{fill:#fff;stroke:#555;stroke-width:1.2;}
+  .ico-pc rect{fill:#c0c0c0;stroke:#555;stroke-width:1;}
+  .ico-pc .screen{fill:#3a6ea5;}
+  .ico-star path{fill:#ffcc00;stroke:#a67c00;stroke-width:1;}
+  .ico-github circle{fill:#333;}
+  .ico-bin path{fill:#e5e5e5;stroke:#555;stroke-width:1;}
+
+  /* ---------- windows ---------- */
+  .window{
+    position:absolute;
+    min-width:300px;
+    display:none;
+    flex-direction:column;
+    padding:3px;
+  }
+  .window.open{display:flex;}
+  .titlebar{
+    background:linear-gradient(90deg,var(--titlebar-1),var(--titlebar-2));
+    color:#fff;
+    font-weight:bold;
+    font-size:12.5px;
+    padding:3px 3px 3px 6px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    cursor:move;
+    letter-spacing:.3px;
+  }
+  .window.inactive .titlebar{
+    background:linear-gradient(90deg,var(--titlebar-inactive-1),var(--titlebar-inactive-2));
+  }
+  .titlebar .tb-left{display:flex;align-items:center;gap:5px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;}
+  .titlebar .tb-buttons{display:flex;gap:2px;flex-shrink:0;}
+  .titlebar button{
+    width:16px;height:14px;
+    font-size:10px;
+    line-height:1;
+    padding:0;
+    display:flex;align-items:center;justify-content:center;
+    font-weight:bold;
+    font-family:"Marlett","Tahoma",sans-serif;
+  }
+  .window-body{
+    background:var(--win-face);
+    border-top:1px solid var(--win-shadow);
+    border-left:1px solid var(--win-shadow);
+    border-right:1px solid var(--win-light);
+    border-bottom:1px solid var(--win-light);
+    flex:1;
+    overflow:auto;
+    padding:14px 16px;
+  }
+  .window .statusbar{
+    background:var(--win-face);
+    border-top:1px solid var(--win-light);
+    padding:2px 8px;
+    font-size:11px;
+    color:#333;
+  }
+
+  /* ---------- content styling inside windows ---------- */
+  h1.win-h{font-size:15px;margin:0 0 4px;color:var(--accent);}
+  h2.win-h{font-size:13px;margin:14px 0 6px;color:var(--accent);border-bottom:1px solid var(--win-face-dark);padding-bottom:3px;}
+  .win-body p{line-height:1.55;margin:0 0 8px;}
+  .divider{border:none;border-top:1px solid var(--win-face-dark);border-bottom:1px solid var(--win-light);margin:10px 0;}
+
+  .profile-row{display:flex;gap:16px;align-items:flex-start;margin-bottom:10px;}
+  .avatar{
+    width:64px;height:64px;flex-shrink:0;
+    background:var(--win-face);
+  }
+  .links-row{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;}
+  .link-chip{
+    display:inline-flex;align-items:center;gap:5px;
+    padding:3px 8px;
+    text-decoration:none;color:#000;
+    font-size:11px;
+    cursor:pointer;
+  }
+  .link-chip:active{padding:4px 7px 2px 9px;}
+
+  .job{margin-bottom:14px;}
+  .job-title{font-weight:bold;}
+  .job-org{color:var(--accent);}
+  .job-date{float:right;font-size:11px;color:#333;}
+  .job ul{margin:6px 0 0 18px;padding:0;}
+  .job li{margin-bottom:4px;line-height:1.4;}
+
+  .skill-group{margin-bottom:12px;}
+  .skill-group-title{font-weight:bold;color:var(--accent);margin-bottom:6px;}
+  .chips{display:flex;flex-wrap:wrap;gap:6px;}
+  .chip{
+    padding:3px 9px;
+    font-size:11px;
+  }
+
+  .proj-card{margin-bottom:14px;padding:10px;}
+  .proj-title a{color:var(--accent);font-weight:bold;text-decoration:none;font-size:12.5px;}
+  .proj-title a:hover{text-decoration:underline;}
+  .proj-meta{font-size:10.5px;color:#444;margin:2px 0 6px;}
+  .proj-tech{font-size:10.5px;margin-top:6px;color:#333;}
+
+  .contact-list{list-style:none;margin:0;padding:0;}
+  .contact-list li{margin-bottom:8px;}
+  .contact-list a{color:var(--accent);text-decoration:none;}
+  .contact-list a:hover{text-decoration:underline;}
+
+  ::-webkit-scrollbar{width:16px;height:16px;}
+  ::-webkit-scrollbar-track{background:var(--win-face);}
+  ::-webkit-scrollbar-thumb{background:var(--win-face);border:1px solid;border-color:var(--win-light) var(--win-shadow) var(--win-shadow) var(--win-light);}
+
+  /* ---------- taskbar ---------- */
+  #taskbar{
+    position:fixed;left:0;right:0;bottom:0;height:30px;
+    background:var(--win-face);
+    border-top:1px solid var(--win-light);
+    display:flex;align-items:center;
+    padding:2px 3px;
+    gap:4px;
+    z-index:5000;
+  }
+  #start-btn{
+    display:flex;align-items:center;gap:5px;
+    font-weight:bold;
+    padding:3px 10px 3px 6px;
+    height:24px;
+  }
+  #start-btn .star{width:16px;height:16px;}
+  #taskbar-sep{width:2px;height:22px;border-left:1px solid var(--win-shadow);border-right:1px solid var(--win-light);}
+  #taskbar-items{display:flex;gap:3px;flex:1;overflow:hidden;}
+  .taskbar-item{
+    height:24px;
+    display:flex;align-items:center;gap:5px;
+    padding:0 8px;
+    font-size:11px;
+    max-width:160px;
+    overflow:hidden;white-space:nowrap;text-overflow:ellipsis;
+    cursor:pointer;
+  }
+  .taskbar-item.active{
+    border-top:1px solid var(--win-shadow);
+    border-left:1px solid var(--win-shadow);
+    border-right:1px solid var(--win-light);
+    border-bottom:1px solid var(--win-light);
+    box-shadow:none;
+  }
+  #clock{
+    padding:4px 10px;
+    font-size:11px;
+    min-width:64px;
+    text-align:center;
+  }
+
+  /* ---------- start menu ---------- */
+  #start-menu{
+    position:fixed;
+    left:2px;bottom:32px;
+    width:200px;
+    display:none;
+    flex-direction:column;
+    z-index:6000;
+    padding:2px;
+  }
+  #start-menu.open{display:flex;}
+  .sm-inner{display:flex;}
+  .sm-side{
+    width:26px;
+    background:linear-gradient(180deg,#000080,#1084d0);
+    display:flex;align-items:flex-end;justify-content:center;padding:8px 0;
+  }
+  .sm-side span{
+    writing-mode:vertical-rl;
+    transform:rotate(180deg);
+    color:#fff;font-weight:bold;font-size:15px;letter-spacing:1px;
+  }
+  .sm-items{flex:1;background:var(--win-face);padding:3px;}
+  .sm-item{
+    display:flex;align-items:center;gap:8px;
+    padding:6px 8px;
+    font-size:12px;
+    cursor:pointer;
+  }
+  .sm-item:hover{background:var(--accent);color:#fff;}
+  .sm-item .glyph{width:20px;height:20px;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+  .sm-divider{border-top:1px solid var(--win-face-dark);border-bottom:1px solid var(--win-light);margin:3px 2px;}
+
+  /* welcome intro */
+  #boot-screen{
+    position:fixed;inset:0;background:#000080;
+    color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    z-index:9999;font-family:var(--font);
+    transition:opacity .5s ease;
+  }
+  #boot-screen .bt{font-size:20px;letter-spacing:2px;margin-bottom:18px;font-weight:bold;}
+  #boot-screen .bp{width:280px;height:16px;border:1px solid #fff;padding:2px;}
+  #boot-screen .bp-fill{height:100%;width:0%;background:#fff;transition:width 2.2s linear;}
+  #boot-screen .bs{margin-top:10px;font-size:11px;opacity:.85;}
+
+  @media (max-width:640px){
+    .window{position:fixed !important;left:2px !important;right:2px !important;top:8px !important;bottom:36px !important;width:auto !important;height:auto !important;}
+    #desktop-icons{top:10px;left:6px;}
+    .dicon{width:66px;}
+    .profile-row{flex-direction:column;}
+  }
+
+  /* ---------- Internet Explorer toolbar ---------- */
+  .ie-toolbar{
+    display:flex;
+    align-items:center;
+    gap:4px;
+    padding:3px 6px;
+    flex-shrink:0;
+    border-top:none;
+    border-bottom:1px solid var(--win-face-dark);
+  }
+  .ie-nav-btn{
+    width:24px;height:22px;
+    padding:0;
+    font-size:9px;
+    display:flex;align-items:center;justify-content:center;
+    flex-shrink:0;
+  }
+  .ie-toolbar-sep{
+    width:2px;height:18px;
+    border-left:1px solid var(--win-shadow);
+    border-right:1px solid var(--win-light);
+    margin:0 2px;
+    flex-shrink:0;
+  }
+  .ie-addr-label{
+    font-size:11px;
+    color:#333;
+    flex-shrink:0;
+    white-space:nowrap;
+  }
+  .ie-addr-bar{
+    flex:1;
+    height:20px;
+    padding:2px 6px;
+    font-size:11px;
+    font-family:'Courier New',monospace;
+    color:#000080;
+    overflow:hidden;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+    line-height:16px;
+  }
+  .ie-go-btn{
+    padding:2px 8px;
+    font-size:11px;
+    height:22px;
+    flex-shrink:0;
+  }
+
+  /* ---------- IE status bar ---------- */
+  .ie-statusbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:2px 8px;
+  }
+  .ie-status-text{
+    font-size:11px;
+    color:#333;
+    flex:1;
+    overflow:hidden;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+  }
+  .ie-zone{
+    font-size:11px;
+    color:#333;
+    flex-shrink:0;
+    padding-left:8px;
+    border-left:1px solid var(--win-face-dark);
+    margin-left:8px;
+  }
+
+  /* ---------- Blog post cards (inside IE window) ---------- */
+  .blog-header{
+    background:linear-gradient(135deg,#000080 0%,#1084d0 100%);
+    color:#fff;
+    padding:10px 14px;
+    margin:-14px -16px 14px;
+    font-size:13px;
+    font-weight:bold;
+    letter-spacing:.3px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .blog-header-globe{
+    opacity:.85;
+  }
+  .blog-card{
+    margin-bottom:12px;
+    padding:10px 12px;
+    border-top:1px solid var(--win-shadow);
+    border-left:1px solid var(--win-shadow);
+    border-right:1px solid var(--win-light);
+    border-bottom:1px solid var(--win-light);
+    box-shadow:inset 1px 1px 0 var(--win-face-dark),inset -1px -1px 0 var(--win-highlight);
+    background:var(--win-face);
+    cursor:default;
+  }
+  .blog-card:hover{
+    background:var(--win-highlight);
+  }
+  .blog-card-title{
+    font-weight:bold;
+    font-size:12.5px;
+    color:var(--accent);
+    text-decoration:none;
+    display:block;
+    margin-bottom:3px;
+  }
+  .blog-card-title:hover{
+    text-decoration:underline;
+  }
+  .blog-card-meta{
+    font-size:10.5px;
+    color:#555;
+    margin-bottom:6px;
+  }
+  .blog-card-summary{
+    font-size:11.5px;
+    line-height:1.5;
+    color:#222;
+    margin:0 0 8px;
+  }
+  .blog-card-visit{
+    display:inline-block;
+    font-size:11px;
+    color:var(--accent);
+    text-decoration:none;
+  }
+  .blog-card-visit:hover{
+    text-decoration:underline;
+  }
+  .blog-empty{
+    font-size:12px;
+    color:#555;
+    text-align:center;
+    margin-top:30px;
+  }
+
+  /* ---------- Article (full-post) view inside IE window ---------- */
+  .article-view{
+    font-family:var(--font);
+  }
+  .article-meta-bar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:10px;
+    padding-bottom:6px;
+    border-bottom:1px solid var(--win-face-dark);
+  }
+  .article-date{
+    font-size:10.5px;
+    color:#555;
+  }
+  .article-ext-link{
+    font-size:10.5px;
+    color:var(--accent);
+    text-decoration:none;
+  }
+  .article-ext-link:hover{ text-decoration:underline; }
+  .article-title{
+    font-size:15px;
+    color:var(--accent);
+    margin:0 0 12px;
+    line-height:1.3;
+  }
+  .article-body{
+    font-size:12px;
+    line-height:1.6;
+    color:#111;
+  }
+  .article-body h2{
+    font-size:13px;
+    color:var(--accent);
+    margin:14px 0 6px;
+    padding-bottom:3px;
+    border-bottom:1px solid var(--win-face-dark);
+  }
+  .article-body p{ margin:0 0 8px; }
+  .article-body ul{ margin:4px 0 8px 18px; padding:0; }
+  .article-body li{ margin-bottom:4px; }
+  .article-body code{
+    font-family:'Courier New',monospace;
+    font-size:11px;
+    background:#e8e8e8;
+    padding:1px 4px;
+    border:1px solid #ccc;
+  }
+  .article-body pre{
+    background:#1e1e1e;
+    color:#d4d4d4;
+    font-family:'Courier New',monospace;
+    font-size:11px;
+    padding:10px 12px;
+    overflow-x:auto;
+    margin:8px 0;
+    border-top:1px solid var(--win-shadow);
+    border-left:1px solid var(--win-shadow);
+    border-right:1px solid var(--win-light);
+    border-bottom:1px solid var(--win-light);
+  }
+  .article-body pre code{
+    background:none;
+    border:none;
+    padding:0;
+    color:inherit;
+  }
+  .article-body a{ color:var(--accent); }
+  .article-body a:hover{ text-decoration:underline; }
