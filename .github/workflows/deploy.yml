@@ -8,8 +8,6 @@ jobs:
   deploy:
     name: Pull latest to EC2
     runs-on: ubuntu-latest
-    # Skip this job entirely if EC2 secrets haven't been configured yet
-    if: ${{ vars.EC2_ENABLED == 'true' }}
 
     steps:
       - name: Deploy via SSH
