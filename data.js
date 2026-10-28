@@ -79,7 +79,7 @@ const DATA = {
   projects: [
     {
       title: 'Raft Consensus Algorithm',
-      href : 'https://github.com/R4hulR/raft-consensus',
+      href : 'https://github.com/R4hulR/Raft',
       meta : 'Personal Project · May 2025',
       desc : 'Implemented Raft consensus from scratch — leader election with randomized timeouts, log replication with majority quorum commits, and automatic failover on leader crash. Built a TCP/HTTP transport layer using FastAPI for inter-node communication, plus a live browser visualization of node states, term numbers, and the state machine in real time.',
       tech : 'Python · FastAPI · Distributed Systems',
@@ -169,6 +169,19 @@ async def provision(instance_id: str, body: ProvisionRequest):
     //   summary: 'Short description shown on the card.',
     //   content: `<h2>...</h2><p>...</p>`,
     // },
+  ],
+
+  /* ─── RECYCLE BIN ──────────────────────────────────────────── *
+   *  Tongue-in-cheek "deleted files" — each one nods to a real   *
+   *  achievement from the résumé.                                *
+   * ─────────────────────────────────────────────────────────── */
+  recycleBin: [
+    { name: 'laravel_monolith/',          from: 'C:\\IASRI\\legacy',     note: 'Migrated to async FastAPI microservices' },
+    { name: 'full_table_scan.sql',        from: 'C:\\IASRI\\db',         note: 'Replaced by composite indexes' },
+    { name: 'passwords.txt',              from: 'C:\\IASRI\\api',        note: 'Replaced by JWT auth + RBAC' },
+    { name: 'single_point_of_failure.py', from: 'C:\\Projects\\raft',    note: 'Leader election + automatic failover handle this now' },
+    { name: 'heartbeat_timeout_60s.cfg',  from: 'C:\\Projects\\gossip',  note: 'Sub-15s failure detection instead' },
+    { name: 'import_torch.py',            from: 'C:\\Projects\\scalargrad', note: 'Wrote my own autograd engine' },
   ],
 
 };

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rahul Ray — Software Engineer (Résumé)</title>
+    <meta name="description"
+        content="Rahul Ray — Software Engineer at ICAR-IASRI building backend systems with Python, FastAPI and AWS. Experience, projects, skills and writing.">
+    <link rel="canonical" href="https://r4hulr.github.io/resume-win/resume.html">
+    <meta property="og:type" content="profile">
+    <meta property="og:url" content="https://r4hulr.github.io/resume-win/resume.html">
+    <meta property="og:title" content="Rahul Ray — Software Engineer (Résumé)">
+    <meta property="og:description"
+        content="Backend & distributed systems engineer. Python · FastAPI · AWS.">
+    <meta property="og:image" content="https://r4hulr.github.io/resume-win/og-image.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" type="image/png" href="favicon.png">
+    <style>
+        :root {
+            --ink: #1a1a2e;
+            --muted: #5a5f73;
+            --line: #e3e5ec;
+            --accent: #000080;
+            --bg: #ffffff;
+            --chip: #f1f3f8;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --ink: #e8e9f0;
+                --muted: #a0a4b8;
+                --line: #2c2f40;
+                --accent: #8fb4ff;
+                --bg: #12131c;
+                --chip: #1f2130;
+            }
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--ink);
+            font: 16px/1.6 "Segoe UI", system-ui, -apple-system, Roboto, sans-serif;
+        }
+
+        main { max-width: 760px; margin: 0 auto; padding: 40px 20px 64px; }
+        a { color: var(--accent); }
+
+        .topbar {
+            display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+            font-size: 14px; margin-bottom: 32px;
+        }
+
+        header h1 { font-size: 2.2rem; margin: 0; line-height: 1.2; }
+        .role { font-size: 1.1rem; color: var(--muted); margin: 4px 0 12px; }
+        .contact { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 15px; }
+
+        h2 {
+            font-size: .85rem; letter-spacing: .12em; text-transform: uppercase;
+            color: var(--accent); border-bottom: 1px solid var(--line);
+            padding-bottom: 6px; margin: 40px 0 16px;
+        }
+
+        .entry { margin-bottom: 24px; }
+        .entry-head { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+        .entry-title { font-weight: 600; }
+        .entry-date { color: var(--muted); font-size: 14px; white-space: nowrap; }
+        .entry-org { color: var(--muted); font-size: 15px; }
+        .entry ul { margin: 8px 0 0; padding-left: 20px; }
+        .entry li { margin-bottom: 4px; }
+        .entry p { margin: 6px 0 0; }
+
+        .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+        .chip { background: var(--chip); border-radius: 4px; padding: 2px 10px; font-size: 14px; }
+        .skill-group { margin-bottom: 14px; }
+        .skill-group strong { font-size: 15px; }
+
+        @media print {
+            .topbar { display: none; }
+            main { padding: 0; }
+            body { font-size: 12px; }
+            h2 { margin-top: 20px; }
+            a { color: inherit; text-decoration: none; }
+        }
+    </style>
+</head>
+
+<body>
+    <main id="resume">
+        <noscript>
+            <p>This page needs JavaScript. You can also <a href="Rahul_Ray.pdf">download the PDF résumé</a>.</p>
+        </noscript>
+    </main>
+
+    <script src="data.js"></script>
+    <script>
+        (function () {
+            const p = DATA.profile;
+            const host = url => url.replace(/^https?:\/\/(www\.)?/, '');
+
+            const experience = DATA.experience.map(job => `
+                <div class="entry">
+                    <div class="entry-head">
+                        <span class="entry-title">${job.title} ${job.subtitle || ''}</span>
+                        <span class="entry-date">${job.date}</span>
+                    </div>
+                    <div class="entry-org">${job.org}</div>
+                    <ul>${job.bullets.map(b => `<li>${b}</li>`).join('')}</ul>
+                </div>`).join('');
+
+            const projects = DATA.projects.map(proj => `
+                <div class="entry">
+                    <div class="entry-head">
+                        <a class="entry-title" href="${proj.href}">${proj.title}</a>
+                        <span class="entry-date">${proj.meta.split('·').pop().trim()}</span>
+                    </div>
+                    <p>${proj.desc}</p>
+                    <div class="chips">${proj.tech.split('·').map(t => `<span class="chip">${t.trim()}</span>`).join('')}</div>
+                </div>`).join('');
+
+            const skills = DATA.skills.map(g => `
+                <div class="skill-group">
+                    <strong>${g.group}</strong>
+                    <div class="chips">${g.chips.map(c => `<span class="chip">${c}</span>`).join('')}</div>
+                </div>`).join('');
+
+            const education = DATA.education.map(edu => `
+                <div class="entry">
+                    <div class="entry-head">
+                        <span class="entry-title">${edu.degree}</span>
+                        <span class="entry-date">${edu.date}</span>
+                    </div>
+                    <div class="entry-org">${edu.org} · ${edu.gpa}</div>
+                </div>`).join('');
+
+            const writing = (DATA.blog || []).map(post => `
+                <div class="entry">
+                    <a class="entry-title" href="${post.url}">${post.title}</a>
+                    <div class="entry-org">${post.date}</div>
+                    <p>${post.summary}</p>
+                </div>`).join('');
+
+            document.getElementById('resume').innerHTML = `
+                <nav class="topbar">
+                    <a href="index.html">← Back to the desktop</a>
+                    <a href="Rahul_Ray.pdf" download>Download PDF</a>
+                </nav>
+                <header>
+                    <h1>${p.name}</h1>
+                    <div class="role">${p.title} · ${p.org}</div>
+                    <div class="contact">
+                        <a href="mailto:${p.email}">${p.email}</a>
+                        <a href="${p.linkedin}">${host(p.linkedin)}</a>
+                        <a href="${p.github}">${host(p.github)}</a>
+                    </div>
+                </header>
+                <h2>About</h2>
+                ${p.bio.map(b => `<p>${b}</p>`).join('')}
+                <h2>Experience</h2>
+                ${experience}
+                <h2>Projects</h2>
+                ${projects}
+                <h2>Skills</h2>
+                ${skills}
+                <h2>Education</h2>
+                ${education}
+                ${writing ? `<h2>Writing</h2>${writing}` : ''}
+            `;
+        })();
+    </script>
+</body>
+
+</html>

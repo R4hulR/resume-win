@@ -12,6 +12,29 @@
     --accent:#000080;
     --font: "Tahoma","Segoe UI",Verdana,sans-serif;
   }
+
+  /* ---------- colour schemes (Display Properties / `theme` command) ---------- */
+  :root[data-theme="plum"]{
+    --titlebar-1:#402040; --titlebar-2:#a0729a;
+    --win-face:#c8c0c8; --win-highlight:#e4dce4; --win-face-dark:#8c7c8c;
+    --accent:#402040; --desktop:#4a3050;
+  }
+  :root[data-theme="marine"]{
+    --titlebar-1:#004040; --titlebar-2:#00a0a0;
+    --win-face:#c0cccc; --win-highlight:#dfe8e8; --win-face-dark:#7a8c8c;
+    --accent:#005a5a; --desktop:#003838;
+  }
+  :root[data-theme="desert"]{
+    --titlebar-1:#804000; --titlebar-2:#d09848;
+    --win-face:#d5ccbb; --win-highlight:#ebe5da; --win-face-dark:#a2957d;
+    --accent:#7a3d00; --desktop:#a28d68;
+  }
+  :root[data-theme="hotdog"]{
+    --titlebar-1:#ff0000; --titlebar-2:#ff4040;
+    --titlebar-inactive-1:#000; --titlebar-inactive-2:#404040;
+    --win-face:#ffff00; --win-highlight:#ffff80; --win-face-dark:#c0c000;
+    --accent:#d00000; --desktop:#ff0000;
+  }
   *{box-sizing:border-box;}
   html,body{
     margin:0;padding:0;height:100%;
@@ -26,6 +49,14 @@
     width:100vw;
     position:relative;
   }
+
+  /* Hidden until focused with the keyboard (first Tab on the page) */
+  .skip-link{
+    position:fixed;top:-40px;left:8px;z-index:10000;
+    background:var(--win-face);color:#000;padding:6px 12px;
+    border:2px solid var(--accent);text-decoration:none;font-weight:bold;
+  }
+  .skip-link:focus{top:8px;}
 
   /* ---------- retro space background ---------- */
   /* To use your own photo/art instead of the drawn scene:
@@ -51,6 +82,8 @@
     position:absolute;inset:0;
     background:linear-gradient(180deg, rgba(2,2,10,0.15) 0%, rgba(2,2,10,0.55) 100%);
   }
+  #space-bg.teal{ background:var(--desktop); }
+  #space-bg.teal > *{ display:none; }
   /* hide the hand-drawn elements automatically when a photo is active */
   #space-bg.has-photo .stars-a,
   #space-bg.has-photo .stars-b,
@@ -177,6 +210,32 @@
     padding:5px 11px 3px 13px;
   }
 
+  a.win95{
+    display:inline-flex;align-items:center;gap:4px;
+    font-family:var(--font);font-size:12px;color:#000;text-decoration:none;
+    background:var(--win-face);
+    border-top:1px solid var(--win-light);
+    border-left:1px solid var(--win-light);
+    border-right:1px solid var(--win-shadow);
+    border-bottom:1px solid var(--win-shadow);
+    box-shadow: inset 1px 1px 0 var(--win-highlight), inset -1px -1px 0 var(--win-face-dark);
+    padding:3px 10px;
+  }
+  a.win95:active{
+    border-color:var(--win-shadow) var(--win-light) var(--win-light) var(--win-shadow);
+    box-shadow:none;
+  }
+  button.win95:disabled{
+    color:var(--win-face-dark);
+    text-shadow:1px 1px 0 var(--win-light);
+    cursor:default;
+  }
+  button.win95:disabled:active{
+    border-color:var(--win-light) var(--win-shadow) var(--win-shadow) var(--win-light);
+    box-shadow: inset 1px 1px 0 var(--win-highlight), inset -1px -1px 0 var(--win-face-dark);
+    padding:4px 12px;
+  }
+
   /* ---------- desktop icons ---------- */
   #desktop-icons{
     position:absolute;
@@ -216,6 +275,13 @@
   .dicon.selected .label{
     background:var(--accent);
   }
+  /* after the first icon drag, icons are absolutely positioned (script.js) */
+  #desktop-icons.free{display:block;top:0;left:0;right:0;bottom:30px;height:auto;pointer-events:none;}
+  #desktop-icons.free > .dicon{position:absolute;pointer-events:auto;}
+  .dicon.dragging{opacity:.7;z-index:2;cursor:grabbing;}
+  .dicon .glyph{transition:filter .15s ease, transform .15s ease;}
+  .dicon:hover .glyph{filter:drop-shadow(0 0 6px rgba(160,210,255,.65));transform:translateY(-1px);}
+  .dicon.selected .glyph{filter:brightness(.75) sepia(1) hue-rotate(180deg) saturate(3);}
 
   /* simple svg icon look */
   .ico-folder rect{fill:#ffd651;stroke:#8a6d00;stroke-width:1;}
@@ -237,6 +303,30 @@
     padding:3px;
   }
   .window.open{display:flex;}
+  .window.raised{
+    box-shadow: inset 1px 1px 0 var(--win-highlight), inset -1px -1px 0 var(--win-face-dark),
+                6px 8px 24px rgba(0,0,0,.45);
+  }
+  .window.opening{animation:win-open .16s ease-out;}
+  .window.closing{animation:win-close .14s ease-in forwards;pointer-events:none;}
+  @keyframes win-open{ from{opacity:0;transform:scale(.94) translateY(8px);} to{opacity:1;transform:none;} }
+  @keyframes win-close{ to{opacity:0;transform:scale(.94) translateY(12px);} }
+  .window.maxed{
+    top:0 !important;left:0 !important;
+    width:100vw !important;height:calc(100vh - 30px) !important;
+  }
+  .window.maxed .titlebar{cursor:default;}
+  .resize-grip{
+    position:absolute;right:3px;bottom:3px;width:13px;height:13px;
+    cursor:nwse-resize;touch-action:none;
+    background:linear-gradient(135deg,
+      transparent 0 44%, var(--win-face-dark) 44% 50%, var(--win-light) 50% 56%,
+      transparent 56% 66%, var(--win-face-dark) 66% 72%, var(--win-light) 72% 78%, transparent 78%);
+  }
+  .window.maxed .resize-grip{display:none;}
+  @media (prefers-reduced-motion: reduce){
+    .window.opening, .window.closing{animation:none;}
+  }
   .titlebar{
     background:linear-gradient(90deg,var(--titlebar-1),var(--titlebar-2));
     color:#fff;
@@ -248,6 +338,7 @@
     justify-content:space-between;
     cursor:move;
     letter-spacing:.3px;
+    touch-action:none;
   }
   .window.inactive .titlebar{
     background:linear-gradient(90deg,var(--titlebar-inactive-1),var(--titlebar-inactive-2));
@@ -321,7 +412,173 @@
   .proj-title a{color:var(--accent);font-weight:bold;text-decoration:none;font-size:12.5px;}
   .proj-title a:hover{text-decoration:underline;}
   .proj-meta{font-size:10.5px;color:#444;margin:2px 0 6px;}
-  .proj-tech{font-size:10.5px;margin-top:6px;color:#333;}
+  .proj-tech{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px;}
+  button.tech-chip{font-size:10.5px;padding:1px 7px;}
+  button.tech-chip.active{
+    border-color:var(--win-shadow) var(--win-light) var(--win-light) var(--win-shadow);
+    box-shadow:none;background:var(--win-highlight);font-weight:bold;
+  }
+  .filter-bar{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+  .filter-bar button{margin-left:auto;padding:2px 10px;font-size:11px;}
+
+  .hint{font-size:11px;color:#555;margin-top:14px;font-style:italic;}
+  .gh-stats{margin-left:6px;padding-left:6px;border-left:1px solid var(--win-face-dark);color:var(--accent);white-space:nowrap;}
+
+  /* ---------- Resume PDF viewer ---------- */
+  .pdf-toolbar{gap:6px;}
+  .window-body.pdf-body{padding:0;overflow:hidden;background:#525659;display:flex;}
+  #resume-frame{flex:1;width:100%;border:0;background:#525659;}
+  .pdf-fallback{
+    display:none;flex:1;flex-direction:column;align-items:center;justify-content:center;
+    gap:8px;text-align:center;background:var(--win-face);padding:16px;
+  }
+  .pdf-fallback p{margin:0;}
+  #win-resume.no-pdf #resume-frame{display:none;}
+  #win-resume.no-pdf .pdf-fallback{display:flex;}
+
+  /* ---------- screensaver ---------- */
+  #screensaver{position:fixed;inset:0;z-index:8900;display:none;cursor:none;}
+  #screensaver.show{display:block;}
+
+  /* ---------- contact / mail form ---------- */
+  .mail-form{display:flex;flex-direction:column;gap:6px;}
+  .mail-form label{display:flex;align-items:center;gap:6px;}
+  .mail-form label span{width:54px;flex-shrink:0;}
+  .mail-form input, .mail-form textarea{
+    flex:1;font:inherit;padding:3px 5px;background:#fff;color:#000;
+    -webkit-user-select:text;user-select:text;outline:none;
+  }
+  .mail-form input[readonly]{background:var(--win-face);}
+  .mail-form textarea{resize:vertical;min-height:70px;}
+  .mail-actions{display:flex;gap:6px;justify-content:flex-end;}
+
+  /* ---------- MS-DOS prompt ---------- */
+  .window-body.term-body{
+    background:#000;color:#c0c0c0;
+    font-family:"Courier New",monospace;font-size:13px;
+    padding:8px 10px;cursor:text;
+    -webkit-user-select:text;user-select:text;
+  }
+  #term-out div{white-space:pre-wrap;word-break:break-word;line-height:1.35;min-height:1.35em;}
+  #term-out .term-echo{color:#fff;}
+  #term-out .term-err{color:#ff7b72;}
+  .term-line{display:flex;line-height:1.35;}
+  .term-prompt{white-space:pre;color:#fff;}
+  #term-in{
+    flex:1;min-width:0;background:transparent;border:none;outline:none;
+    color:#fff;font:inherit;padding:0;caret-color:#fff;
+  }
+
+  /* ---------- Display Properties ---------- */
+  .disp-preview{width:180px;height:132px;margin:0 auto 12px;padding:6px;position:relative;}
+  .disp-screen{position:absolute;inset:6px 6px 14px;overflow:hidden;background:url('space-bg.jpg') center/cover;}
+  .disp-screen[data-wallpaper="scene"]{background:linear-gradient(180deg,#02020a 0%,#1a0e3a 70%,#2a0f2f 100%);}
+  .disp-screen[data-wallpaper="teal"]{background:var(--desktop);}
+  .disp-win{position:absolute;left:26px;top:18px;width:100px;height:62px;padding:2px;}
+  .disp-tb{height:9px;background:linear-gradient(90deg,var(--titlebar-1),var(--titlebar-2));}
+  fieldset.group{
+    border:1px solid var(--win-face-dark);
+    box-shadow:1px 1px 0 var(--win-light), inset 1px 1px 0 var(--win-light);
+    margin:0 0 10px;padding:6px 10px 8px;
+  }
+  fieldset.group legend{padding:0 4px;}
+  fieldset.group select{width:100%;font:inherit;padding:2px;}
+  .opt-row{display:flex;align-items:center;gap:6px;margin:3px 0;cursor:pointer;}
+  .dlg-actions{display:flex;justify-content:flex-end;gap:6px;margin-top:4px;}
+  .dlg-actions button{min-width:72px;}
+
+  /* ---------- Recycle Bin list view ---------- */
+  .window-body.bin-body{padding:0;background:#fff;}
+  .list-view{width:100%;border-collapse:collapse;font-size:11px;}
+  .list-view th{
+    position:sticky;top:0;text-align:left;font-weight:normal;
+    padding:2px 6px;white-space:nowrap;
+  }
+  .list-view td{padding:3px 6px;white-space:nowrap;vertical-align:top;}
+  .list-view td:last-child{white-space:normal;}
+  .list-view tr{cursor:default;outline:none;}
+  .list-view tbody tr:focus td{background:var(--accent);color:#fff;}
+
+  /* ---------- Games folder (icons inside a window) ---------- */
+  .window-body.folder-view{
+    background:#fff;display:flex;flex-wrap:wrap;align-content:flex-start;gap:4px;padding:10px;
+  }
+  .folder-view .dicon{color:#000;text-shadow:none;}
+  .folder-view .dicon:focus, .folder-view .dicon.selected{outline:1px dotted #000;}
+  .folder-view .dicon.selected .label{color:#fff;}
+
+  /* ---------- shared game chrome ---------- */
+  .game-bar{display:flex;align-items:center;gap:16px;margin-bottom:10px;}
+  .game-bar button{margin-left:auto;}
+  .game-help{font-size:11px;color:#444;text-align:center;margin:10px 0 0;}
+  .window-body.game-canvas-body{padding:0;overflow:hidden;background:#05051a;}
+  .dodger-canvas{display:block;cursor:crosshair;touch-action:none;}
+
+  /* ---------- Bug Squash ---------- */
+  .bug-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+  .bug-hole{
+    position:relative;aspect-ratio:1;background:#1e1e1e;
+    display:flex;align-items:center;justify-content:center;
+    cursor:crosshair;touch-action:manipulation;
+  }
+  .bug-ln{
+    position:absolute;top:3px;left:5px;
+    font-family:"Courier New",monospace;font-size:10px;color:#6a9955;
+  }
+  .bug-hole.hit{background:#1f3d1f;}
+  .bug-hole.oops{background:#5a1a1a;}
+  .critter{font-size:34px;line-height:1;animation:pop-in .12s ease-out;}
+  @keyframes pop-in{ from{transform:scale(.3) translateY(10px);opacity:0;} to{transform:none;opacity:1;} }
+
+  /* ---------- Tech Match ---------- */
+  .match-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;}
+  button.match-card{
+    aspect-ratio:4/3;padding:4px;font:inherit;font-size:11px;font-weight:bold;cursor:pointer;
+    border:1px solid;border-color:var(--win-light) var(--win-shadow) var(--win-shadow) var(--win-light);
+    background:
+      repeating-linear-gradient(45deg, rgba(255,255,255,.12) 0 4px, transparent 4px 8px),
+      linear-gradient(135deg, var(--titlebar-1), var(--titlebar-2));
+    color:transparent;
+    transition:transform .12s ease;
+  }
+  button.match-card:hover{transform:translateY(-1px);}
+  button.match-card.up{
+    background:#fff;color:var(--accent);
+    border-color:var(--win-shadow) var(--win-light) var(--win-light) var(--win-shadow);
+    animation:card-flip .18s ease-out;
+  }
+  button.match-card.matched{background:#e6f4e0;color:#2d6a1f;cursor:default;}
+  @keyframes card-flip{ from{transform:scaleX(.1);} to{transform:none;} }
+  @media (prefers-reduced-motion: reduce){
+    .critter, button.match-card.up{animation:none;}
+  }
+
+  /* ---------- desktop context menu ---------- */
+  #ctx-menu{position:fixed;display:none;z-index:6500;min-width:180px;padding:2px;}
+  #ctx-menu.open{display:block;}
+  .ctx-item{padding:4px 20px;cursor:pointer;}
+  .ctx-item:hover{background:var(--accent);color:#fff;}
+
+  /* ---------- shut down ---------- */
+  #shutdown-screen{
+    position:fixed;inset:0;z-index:9998;background:#000;color:#ff9a2e;
+    display:none;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;font-size:24px;cursor:pointer;
+  }
+  #shutdown-screen.show{display:flex;}
+  #shutdown-screen p{margin:0;line-height:1.4;}
+  #shutdown-screen small{color:#777;font-size:11px;margin-top:22px;}
+
+  /* ---------- CRT overlay ---------- */
+  #crt{
+    position:fixed;inset:0;z-index:9000;pointer-events:none;display:none;
+    background:
+      repeating-linear-gradient(0deg, rgba(0,0,0,.16) 0 1px, transparent 1px 3px),
+      radial-gradient(ellipse at center, transparent 58%, rgba(0,0,0,.5) 100%);
+  }
+  body.crt #crt{display:block;animation:crt-flicker 6s infinite;}
+  @keyframes crt-flicker{ 0%,100%{opacity:1;} 48%{opacity:.92;} 50%{opacity:1;} }
+  @media (prefers-reduced-motion: reduce){ body.crt #crt{animation:none;} }
 
   .contact-list{list-style:none;margin:0;padding:0;}
   .contact-list li{margin-bottom:8px;}
@@ -360,19 +617,29 @@
     overflow:hidden;white-space:nowrap;text-overflow:ellipsis;
     cursor:pointer;
   }
+  .taskbar-item svg{flex-shrink:0;}
   .taskbar-item.active{
+    background:var(--win-highlight);
+    font-weight:bold;
     border-top:1px solid var(--win-shadow);
     border-left:1px solid var(--win-shadow);
     border-right:1px solid var(--win-light);
     border-bottom:1px solid var(--win-light);
     box-shadow:none;
   }
-  #clock{
-    padding:4px 10px;
-    font-size:11px;
-    min-width:64px;
-    text-align:center;
+  #tray{
+    display:flex;align-items:center;gap:6px;
+    height:24px;padding:0 8px 0 4px;font-size:11px;
   }
+  #clock{min-width:52px;text-align:center;cursor:default;}
+  #sound-btn{
+    background:none;border:none;padding:2px;cursor:pointer;
+    display:flex;align-items:center;
+  }
+  #sound-btn:focus-visible{outline:1px dotted #000;}
+  #sound-btn .snd-waves{display:none;}
+  #sound-btn.on .snd-waves{display:inline;}
+  #sound-btn.on .snd-mute{display:none;}
 
   /* ---------- start menu ---------- */
   #start-menu{
@@ -388,7 +655,7 @@
   .sm-inner{display:flex;}
   .sm-side{
     width:26px;
-    background:linear-gradient(180deg,#000080,#1084d0);
+    background:linear-gradient(180deg,var(--titlebar-1),var(--titlebar-2));
     display:flex;align-items:flex-end;justify-content:center;padding:8px 0;
   }
   .sm-side span{
@@ -409,7 +676,7 @@
 
   /* welcome intro */
   #boot-screen{
-    position:fixed;inset:0;background:#000080;
+    position:fixed;inset:0;background:var(--titlebar-1);
     color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;
     z-index:9999;font-family:var(--font);
     transition:opacity .5s ease;
@@ -424,6 +691,7 @@
     #desktop-icons{top:10px;left:6px;}
     .dicon{width:66px;}
     .profile-row{flex-direction:column;}
+    .resize-grip{display:none;}
   }
 
   /* ---------- Internet Explorer toolbar ---------- */
